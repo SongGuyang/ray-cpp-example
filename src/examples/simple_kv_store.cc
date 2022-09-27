@@ -1,17 +1,3 @@
-// Copyright 2021 The Ray Authors.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//  http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 /// This is an example of Ray C++ application. Please visit
 /// `https://docs.ray.io/en/master/index.html` for more details.
 #include <ray/api.h>
@@ -150,7 +136,7 @@ void StartServer() {
   // different nodes if possible.
   std::vector<std::unordered_map<std::string, double>> bundles{RESOUECES, RESOUECES};
 
-  ray::PlacementGroupCreationOptions options{false, "kv_server_pg", bundles,
+  ray::PlacementGroupCreationOptions options{"kv_server_pg", bundles,
                                              ray::PlacementStrategy::SPREAD};
   auto placement_group = ray::CreatePlacementGroup(options);
   // Wait until the placement group is created.
@@ -269,6 +255,8 @@ int main(int argc, char **argv) {
   // server.
   KillMainServer();
   get_result("hello");
+
+  std::cout << "Run the simple kv store successfully!" << std::endl;
 
   // Stop ray cluster and ray runtime.
   ray::Shutdown();
